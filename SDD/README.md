@@ -26,6 +26,7 @@ Definir el plan completo de analisis, diseno y construccion para que agentes de 
 7. [06_seguridad_y_auditoria.md](06_seguridad_y_auditoria.md)
 8. [07_validacion_y_calidad.md](07_validacion_y_calidad.md)
 9. [08_plan_de_implementacion.md](08_plan_de_implementacion.md)
+10. [09_generacion_backend.md](09_generacion_backend.md)
 
 ## Resultado esperado
 
