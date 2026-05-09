@@ -12,7 +12,7 @@ public class CatEstadoSeguro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "estado_seguro_id")
+    @Column(name = "estado_seguro_id", columnDefinition = "TINYINT UNSIGNED")
     private Short estadoSeguroId;
 
     @Column(name = "codigo", nullable = false, length = 20, unique = true)

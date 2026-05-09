@@ -12,7 +12,7 @@ public class CatRolUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rol_id")
+    @Column(name = "rol_id", columnDefinition = "TINYINT UNSIGNED")
     private Short rolId;
 
     @Column(name = "codigo", nullable = false, length = 30, unique = true)

@@ -12,7 +12,7 @@ public class CatTipoDocumento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tipo_doc_id")
+    @Column(name = "tipo_doc_id", columnDefinition = "TINYINT UNSIGNED")
     private Short tipoDocId;
 
     @Column(name = "codigo", nullable = false, length = 20, unique = true)

@@ -12,7 +12,7 @@ public class CatPrioridadAtencion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "prioridad_id")
+    @Column(name = "prioridad_id", columnDefinition = "TINYINT UNSIGNED")
     private Short prioridadId;
 
     @Column(name = "codigo", nullable = false, length = 20, unique = true)

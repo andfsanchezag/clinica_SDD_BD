@@ -13,7 +13,7 @@ public class ConfigFacturacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "config_id")
+    @Column(name = "config_id", columnDefinition = "TINYINT UNSIGNED")
     private Short configId;
 
     @Column(name = "parametro", nullable = false, length = 60, unique = true)
