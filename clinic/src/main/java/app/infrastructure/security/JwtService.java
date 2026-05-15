@@ -32,15 +32,21 @@ public class JwtService {
         this.expirationMs = expirationMs;
     }
 
-    /** Genera un JWT firmado con el usuario y su rol. */
-    public String generateToken(String username, String rol) {
+    /** Genera un JWT firmado con el usuario, su rol y su ID. */
+    public String generateToken(String username, String rol, Integer usuarioId) {
         return Jwts.builder()
                 .subject(username)
                 .claim("rol", rol)
+                .claim("uid", usuarioId)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(secretKey)
                 .compact();
+    }
+
+    /** Genera un JWT sin usuarioId (compatibilidad). */
+    public String generateToken(String username, String rol) {
+        return generateToken(username, rol, null);
     }
 
     /** Extrae el nombre de usuario (subject) del token. */

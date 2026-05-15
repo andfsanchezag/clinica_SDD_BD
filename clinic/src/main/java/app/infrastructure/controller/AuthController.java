@@ -2,6 +2,8 @@ package app.infrastructure.controller;
 
 import app.application.dto.LoginRequest;
 import app.application.dto.LoginResponse;
+import app.domain.entities.masters.SeguridadUsuario;
+import app.domain.repositories.SeguridadUsuarioRepository;
 import app.infrastructure.security.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,10 +30,14 @@ public class AuthController {
 
     private final AuthenticationManager authManager;
     private final JwtService jwtService;
+    private final SeguridadUsuarioRepository usuarioRepository;
 
-    public AuthController(AuthenticationManager authManager, JwtService jwtService) {
-        this.authManager = authManager;
-        this.jwtService  = jwtService;
+    public AuthController(AuthenticationManager authManager,
+                          JwtService jwtService,
+                          SeguridadUsuarioRepository usuarioRepository) {
+        this.authManager        = authManager;
+        this.jwtService         = jwtService;
+        this.usuarioRepository  = usuarioRepository;
     }
 
     @PostMapping("/login")
@@ -53,8 +59,13 @@ public class AuthController {
                 .map(a -> a.replace("ROLE_", ""))
                 .orElse("");
 
-        String token = jwtService.generateToken(user.getUsername(), rol);
+        // Obtener el usuarioId para incluirlo en la respuesta
+        Integer usuarioId = usuarioRepository.findActivoConRol(user.getUsername())
+                .map(SeguridadUsuario::getUsuarioId)
+                .orElse(null);
 
-        return ResponseEntity.ok(new LoginResponse(token, rol, user.getUsername()));
+        String token = jwtService.generateToken(user.getUsername(), rol, usuarioId);
+
+        return ResponseEntity.ok(new LoginResponse(token, rol, user.getUsername(), usuarioId));
     }
 }

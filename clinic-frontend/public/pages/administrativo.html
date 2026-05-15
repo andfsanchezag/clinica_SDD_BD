@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clínica IPS — Administrativo</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+
+<!-- Guard -->
+<script type="module">
+  import { guardPage } from '../js/shared/infrastructure/router.guard.js';
+  if (!guardPage('administrativo')) throw new Error('Acceso denegado');
+</script>
+
+<div id="navbar-container"></div>
+
+<div class="container-fluid py-3">
+  <h5 class="page-header"><i class="bi bi-person-badge me-2"></i>Panel Administrativo</h5>
+
+  <!-- Tabs principales -->
+  <ul class="nav nav-tabs mb-3" id="tab-admin">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-pacientes"><i class="bi bi-people me-1"></i>Pacientes</a></li>
+    <li class="nav-item"><a class="nav-link"        data-bs-toggle="tab" href="#tab-citas">   <i class="bi bi-calendar-check me-1"></i>Citas</a></li>
+    <li class="nav-item"><a class="nav-link"        data-bs-toggle="tab" href="#tab-fact">    <i class="bi bi-receipt me-1"></i>Facturación</a></li>
+  </ul>
+
+  <div id="banner-paciente" class="mb-2"></div>
+  <div id="banner-citas"    class="mb-2"></div>
+  <div id="banner-facturacion" class="mb-2"></div>
+
+  <div class="tab-content">
+
+    <!-- ══════════════════ PACIENTES ══════════════════ -->
+    <div class="tab-pane fade show active" id="tab-pacientes">
+      <div class="row g-3">
+
+        <!-- Registrar paciente -->
+        <div class="col-lg-6">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-person-plus me-1"></i>Registrar Paciente</div>
+            <div class="card-body">
+              <form id="form-paciente" novalidate>
+                <div class="row g-2">
+                  <div class="col-md-6">
+                    <label class="form-label">Cédula *</label>
+                    <input type="text" class="form-control form-control-sm" name="cedula" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Tipo documento *</label>
+                    <select class="form-select form-select-sm" id="sel-tipo-doc" name="tipoDocId" required>
+                      <option value="">-- Seleccione --</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Nombre completo *</label>
+                    <input type="text" class="form-control form-control-sm" name="nombreCompleto" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Fecha nacimiento *</label>
+                    <input type="date" class="form-control form-control-sm" name="fechaNacimiento" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Género *</label>
+                    <select class="form-select form-select-sm" id="sel-genero" name="generoId" required>
+                      <option value="">-- Seleccione --</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Dirección</label>
+                    <input type="text" class="form-control form-control-sm" name="direccion">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control form-control-sm" name="telefono">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Correo</label>
+                    <input type="email" class="form-control form-control-sm" name="correo">
+                  </div>
+                  <div class="col-12 mt-2">
+                    <button id="btn-reg-paciente" type="submit" class="btn btn-primary btn-sm w-100">
+                      <i class="bi bi-save me-1"></i>Registrar paciente
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contacto de emergencia + Seguro -->
+        <div class="col-lg-6">
+          <!-- Contacto -->
+          <div class="card mb-3">
+            <div class="card-header"><i class="bi bi-telephone-plus me-1"></i>Contacto de Emergencia</div>
+            <div class="card-body">
+              <form id="form-contacto" novalidate>
+                <div class="row g-2">
+                  <div class="col-md-6">
+                    <label class="form-label">ID Paciente *</label>
+                    <input type="number" class="form-control form-control-sm" name="pacienteId" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Relación *</label>
+                    <input type="text" class="form-control form-control-sm" name="relacion" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Nombre completo *</label>
+                    <input type="text" class="form-control form-control-sm" name="nombreCompleto" required>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Teléfono *</label>
+                    <input type="tel" class="form-control form-control-sm" name="telefono" required>
+                  </div>
+                  <div class="col-12 mt-1">
+                    <button id="btn-reg-contacto" type="submit" class="btn btn-primary btn-sm w-100">
+                      <i class="bi bi-save me-1"></i>Registrar contacto
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Seguro -->
+          <div class="card">
+            <div class="card-header"><i class="bi bi-shield-check me-1"></i>Seguro Médico</div>
+            <div class="card-body">
+              <form id="form-seguro" novalidate>
+                <div class="row g-2">
+                  <div class="col-md-6">
+                    <label class="form-label">ID Paciente *</label>
+                    <input type="number" class="form-control form-control-sm" name="pacienteId" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Estado seguro *</label>
+                    <select class="form-select form-select-sm" id="sel-estado-seguro" name="estadoSeguroId" required>
+                      <option value="">-- Seleccione --</option>
+                    </select>
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">Compañía *</label>
+                    <input type="text" class="form-control form-control-sm" name="compania" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">N° Póliza *</label>
+                    <input type="text" class="form-control form-control-sm" name="numeroPoliza" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">Fecha vigencia *</label>
+                    <input type="date" class="form-control form-control-sm" name="fechaVigencia" required>
+                  </div>
+                  <div class="col-12 mt-1">
+                    <button id="btn-reg-seguro" type="submit" class="btn btn-primary btn-sm w-100">
+                      <i class="bi bi-save me-1"></i>Registrar seguro
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div><!-- /col -->
+      </div><!-- /row -->
+    </div><!-- /tab-pacientes -->
+
+    <!-- ══════════════════ CITAS ══════════════════ -->
+    <div class="tab-pane fade" id="tab-citas">
+      <div class="row g-3">
+
+        <!-- Programar cita -->
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-calendar-plus me-1"></i>Programar Cita</div>
+            <div class="card-body">
+              <form id="form-programar-cita" novalidate>
+                <div class="mb-2">
+                  <label class="form-label">ID Paciente *</label>
+                  <input type="number" class="form-control form-control-sm" name="pacienteId" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">ID Médico *</label>
+                  <input type="number" class="form-control form-control-sm" name="medicoId" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Fecha y hora *</label>
+                  <input type="datetime-local" class="form-control form-control-sm" id="prog-fecha" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Prioridad *</label>
+                  <select class="form-select form-select-sm" id="sel-prioridad" name="prioridadId" required>
+                    <option value="">-- Seleccione --</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Motivo</label>
+                  <textarea class="form-control form-control-sm" name="motivo" rows="2"></textarea>
+                </div>
+                <button id="btn-programar-cita" type="submit" class="btn btn-primary btn-sm w-100">
+                  <i class="bi bi-calendar-check me-1"></i>Programar cita
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reprogramar cita -->
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-calendar-event me-1"></i>Reprogramar Cita</div>
+            <div class="card-body">
+              <form id="form-reprogramar-cita" novalidate>
+                <div class="input-group mb-3 input-group-sm">
+                  <input type="number" class="form-control" id="rep-cita-id" placeholder="ID Cita" required>
+                  <button type="button" class="btn btn-outline-primary" id="btn-buscar-cita-rep">
+                    <i class="bi bi-search"></i> Buscar
+                  </button>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Nueva fecha y hora *</label>
+                  <input type="datetime-local" class="form-control form-control-sm" id="rep-nueva-fecha" required>
+                </div>
+                <button id="btn-reprogramar-cita" type="submit" class="btn btn-warning btn-sm w-100">
+                  <i class="bi bi-arrow-clockwise me-1"></i>Reprogramar
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cancelar cita -->
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-calendar-x me-1"></i>Cancelar Cita</div>
+            <div class="card-body">
+              <form id="form-cancelar-cita" novalidate>
+                <div class="mb-3">
+                  <label class="form-label">ID Cita *</label>
+                  <input type="number" class="form-control form-control-sm" id="can-cita-id" required>
+                </div>
+                <button id="btn-cancelar-cita" type="submit" class="btn btn-danger btn-sm w-100">
+                  <i class="bi bi-x-circle me-1"></i>Cancelar cita
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+    </div><!-- /tab-citas -->
+
+    <!-- ══════════════════ FACTURACIÓN ══════════════════ -->
+    <div class="tab-pane fade" id="tab-fact">
+      <div class="row g-3">
+
+        <!-- Copago -->
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-calculator me-1"></i>Calcular Copago</div>
+            <div class="card-body">
+              <div class="mb-2">
+                <label class="form-label">ID Paciente *</label>
+                <input type="number" class="form-control form-control-sm" id="cop-paciente-id">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Tipo facturación *</label>
+                <select class="form-select form-select-sm" id="cop-tipo-fact">
+                  <option value="">-- Seleccione --</option>
+                </select>
+              </div>
+              <button id="btn-calcular-copago" type="button" class="btn btn-info btn-sm w-100">
+                <i class="bi bi-calculator me-1"></i>Calcular
+              </button>
+
+              <div id="copago-result" class="d-none mt-3 p-3 bg-light rounded border">
+                <div class="d-flex justify-content-between"><span class="fw-bold">Valor copago:</span><span id="cop-valor"></span></div>
+                <div class="d-flex justify-content-between"><span class="fw-bold">Exento:</span><span id="cop-exento"></span></div>
+                <div class="mt-1 text-muted fst-italic" id="cop-msg"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emitir factura -->
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-file-earmark-text me-1"></i>Emitir Factura</div>
+            <div class="card-body">
+              <form id="form-factura" novalidate>
+                <div class="mb-2">
+                  <label class="form-label">ID Encuentro *</label>
+                  <input type="number" class="form-control form-control-sm" name="encuentroId" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">ID Paciente *</label>
+                  <input type="number" class="form-control form-control-sm" name="pacienteId" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">ID Médico *</label>
+                  <input type="number" class="form-control form-control-sm" name="medicoId" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">ID Seguro (opcional)</label>
+                  <input type="number" class="form-control form-control-sm" name="seguroId">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Tipo facturación *</label>
+                  <select class="form-select form-select-sm" id="sel-tipo-fact" name="tipoFactId" required>
+                    <option value="">-- Seleccione --</option>
+                  </select>
+                </div>
+                <button id="btn-emitir-factura" type="submit" class="btn btn-primary btn-sm w-100">
+                  <i class="bi bi-file-earmark-check me-1"></i>Emitir factura
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registrar pago -->
+        <div class="col-lg-4">
+          <div class="card h-100">
+            <div class="card-header"><i class="bi bi-cash-coin me-1"></i>Registrar Pago</div>
+            <div class="card-body">
+              <form id="form-pago" novalidate>
+                <div class="mb-2">
+                  <label class="form-label">ID Factura *</label>
+                  <input type="number" class="form-control form-control-sm" name="facturaId" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Valor pagado *</label>
+                  <input type="number" step="0.01" class="form-control form-control-sm" name="valorPagado" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label">Tipo de pago *</label>
+                  <select class="form-select form-select-sm" name="tipoPago" required>
+                    <option value="">-- Seleccione --</option>
+                    <option value="EFECTIVO">Efectivo</option>
+                    <option value="TARJETA">Tarjeta</option>
+                    <option value="TRANSFERENCIA">Transferencia</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Referencia</label>
+                  <input type="text" class="form-control form-control-sm" name="referencia">
+                </div>
+                <button id="btn-registrar-pago" type="submit" class="btn btn-success btn-sm w-100">
+                  <i class="bi bi-check2-circle me-1"></i>Registrar pago
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+    </div><!-- /tab-fact -->
+
+  </div><!-- /tab-content -->
+</div><!-- /container -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="../js/administrativo/presentation/paciente.controller.js"></script>
+<script type="module" src="../js/administrativo/presentation/cita.controller.js"></script>
+<script type="module" src="../js/administrativo/presentation/facturacion.controller.js"></script>
+
+<!-- Ajuste: captura datetime-local y lo convierte al formato requerido -->
+<script type="module">
+  document.getElementById('form-programar-cita')?.addEventListener('submit', (e) => {
+    const el = document.getElementById('prog-fecha');
+    if (el && el.value) {
+      // Asegurar que tenga segundos
+      const fh = el.value.length === 16 ? el.value + ':00' : el.value;
+      const inp = document.createElement('input');
+      inp.type = 'hidden'; inp.name = 'fechaHora'; inp.value = fh;
+      e.target.appendChild(inp);
+    }
+  }, true);
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clínica IPS — Enfermería</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+
+<div id="navbar-container"></div>
+
+<div class="container-fluid py-3">
+  <h5 class="page-header"><i class="bi bi-heart-pulse me-2"></i>Panel Enfermería</h5>
+
+  <ul class="nav nav-tabs mb-3">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-signos">   <i class="bi bi-activity me-1"></i>Signos Vitales</a></li>
+    <li class="nav-item"><a class="nav-link"        data-bs-toggle="tab" href="#tab-medicamentos"><i class="bi bi-capsule me-1"></i>Medicamentos</a></li>
+  </ul>
+
+  <div id="banner-enfermera" class="mb-2"></div>
+
+  <div class="tab-content">
+
+    <!-- ══════════════════ SIGNOS VITALES ══════════════════ -->
+    <div class="tab-pane fade show active" id="tab-signos">
+      <div class="card" style="max-width:700px;">
+        <div class="card-header"><i class="bi bi-clipboard-heart me-1"></i>Registrar Signos Vitales</div>
+        <div class="card-body">
+          <form id="form-signos" novalidate>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <label class="form-label">ID Encuentro *</label>
+                <input type="number" class="form-control form-control-sm" name="encuentroId" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Presión arterial</label>
+                <input type="text" class="form-control form-control-sm" name="presion" placeholder="Ej: 120/80">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Temperatura (°C)</label>
+                <input type="number" step="0.1" class="form-control form-control-sm" name="temperatura">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Pulso (bpm)</label>
+                <input type="number" class="form-control form-control-sm" name="pulso">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Oxígeno SpO₂ (%)</label>
+                <input type="number" step="0.1" class="form-control form-control-sm" name="oxigeno">
+              </div>
+              <div class="col-12 mt-2">
+                <button id="btn-registrar-signos" type="submit" class="btn btn-primary btn-sm w-100">
+                  <i class="bi bi-save me-1"></i>Registrar signos vitales
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ MEDICAMENTOS ══════════════════ -->
+    <div class="tab-pane fade" id="tab-medicamentos">
+      <div class="card" style="max-width:600px;">
+        <div class="card-header"><i class="bi bi-capsule-pill me-1"></i>Administración de Medicamentos</div>
+        <div class="card-body">
+          <form id="form-medicamentos" novalidate>
+            <div class="row g-2">
+              <div class="col-md-6">
+                <label class="form-label">ID Encuentro *</label>
+                <input type="number" class="form-control form-control-sm" name="encuentroId" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">ID Medicamento *</label>
+                <input type="number" class="form-control form-control-sm" name="medicamentoId" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Dosis *</label>
+                <input type="text" class="form-control form-control-sm" name="dosis" required placeholder="Ej: 500mg">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Observación</label>
+                <textarea class="form-control form-control-sm" name="observacion" rows="2"></textarea>
+              </div>
+              <div class="col-12 mt-2">
+                <button id="btn-registrar-admin" type="submit" class="btn btn-primary btn-sm w-100">
+                  <i class="bi bi-save me-1"></i>Registrar administración
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="../js/enfermera/presentation/enfermera.controller.js"></script>
+</body>
+</html>
